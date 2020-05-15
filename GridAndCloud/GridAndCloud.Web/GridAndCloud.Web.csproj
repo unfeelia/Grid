@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>GridAndCloud.Web.Program</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GridAndCloud.BusinessLogic.Implementation\GridAndCloud.BusinessLogic.Implementation.csproj" />
+    <ProjectReference Include="..\GridAndCloud.BusinessLogic\GridAndCloud.BusinessLogic.csproj" />
+    <ProjectReference Include="..\GridAndCloud.CoreModels\GridAndCloud.CoreModels.csproj" />
+  </ItemGroup>
 
 </Project>
