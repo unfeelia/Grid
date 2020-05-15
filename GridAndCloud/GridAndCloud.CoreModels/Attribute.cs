@@ -11,6 +11,9 @@ namespace GridAndCloud.CoreModels.Attributes
     {
         private protected int _id;
         public IEnumerable<ValueType> Options { get; private set; }
+        
+        public string Description { get; set; }
+        public string Name { get; set; }
 
         public int Id { get => _id; }
         public Type AttributeType { get; private set; }

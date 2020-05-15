@@ -80,5 +80,20 @@ namespace GridAndCloud.CoreModels.Extensions
 
             return false;
         }
+
+        public static (ValueType upperBound, ValueType lowerBound) GetElementsBounds(this IEnumerable<Element> elements, int attributeId)
+        {
+            var attribute = elements.Select(x => x.Attributes
+                                      .Where(attr => attr.Item1 == attributeId)
+                                      .First().Item2)
+                                    .First();
+
+            var sortedValues = elements.Select(x => x.Attributes
+                                      .Where(attr => attr.Item1 == attribute.Id)
+                                      .First().Item3)
+                        .OrderBy(z => attribute.Magnitude(z).Value)
+                        .ToArray();
+            return (sortedValues.First(), sortedValues.Last());
+        }
     }
 }

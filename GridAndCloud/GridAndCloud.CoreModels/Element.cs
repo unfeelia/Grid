@@ -1,5 +1,6 @@
 ﻿using GridAndCloud.CoreModels.Attributes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Attribute = GridAndCloud.CoreModels.Attributes.Attribute;
@@ -34,13 +35,27 @@ namespace GridAndCloud.CoreModels
                 _attributesValues.Add(key, null);
             }
         }
-        
+
+        public Element(Model model, IDictionary<int, ValueType> attributes)
+        {
+            _model = model;
+
+            _attributesValues = new Dictionary<int, ValueType>();
+
+            var keys = _model.Attributes.Select(x => x.Key);
+
+            foreach (var key in keys)
+            {
+                _attributesValues.Add(key, attributes[key]);
+            }
+        }
+
         public void SetAttribute(int attributeId, ValueType value)
         {
             _attributesValues[attributeId] = value;
         }
 
-        public object GetAttribute(int attributeId)
+        public ValueType GetAttribute(int attributeId)
         {
             return _attributesValues[attributeId];
         }

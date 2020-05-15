@@ -28,13 +28,13 @@ namespace GridAndCloud.CoreModels.Filters
         }
     }
 
-    public sealed class CompareWihFilter : Filter
+    public sealed class CompareWithFilter : Filter
     {
         private ValueType _bound;
         private bool _inclusive;
         private bool _greaterThan;
 
-        public CompareWihFilter(int attributeId, ValueType bound, bool greaterThan = true, bool inclusive = false) : base(attributeId)
+        public CompareWithFilter(int attributeId, ValueType bound, bool greaterThan = true, bool inclusive = false) : base(attributeId)
         {
             _bound = bound;
             _inclusive = inclusive;
@@ -61,8 +61,8 @@ namespace GridAndCloud.CoreModels.Filters
 
     public sealed class InBetweenFilter : Filter
     {
-        private CompareWihFilter _from;
-        private CompareWihFilter _to;
+        private CompareWithFilter _from;
+        private CompareWithFilter _to;
         private bool _includeLowerBound;
         private bool _includeUpperBound;
 
@@ -75,8 +75,8 @@ namespace GridAndCloud.CoreModels.Filters
             _includeLowerBound = includeLowerBound;
             _includeUpperBound = includeUpperBound;
 
-            _from = new CompareWihFilter(attributeId, true, _includeLowerBound);
-            _to = new CompareWihFilter(attributeId, false, _includeUpperBound);
+            _from = new CompareWithFilter(attributeId, true, _includeLowerBound);
+            _to = new CompareWithFilter(attributeId, false, _includeUpperBound);
         }
 
         public sealed override bool IsValid(Element element)
