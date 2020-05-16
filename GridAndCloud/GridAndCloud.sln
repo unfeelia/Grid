@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridAndCloud.CoreModels", "GridAndCloud.CoreModels\GridAndCloud.CoreModels.csproj", "{55F5F258-3333-42EB-A8AD-F420BFD70587}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridAndCloud.BusinessLogic", "GridAndCloud.BusinessLogic\GridAndCloud.BusinessLogic.csproj", "{722F8467-8E03-45DC-BC0B-458C199E5AE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridAndCloud.BusinessLogic", "GridAndCloud.BusinessLogic\GridAndCloud.BusinessLogic.csproj", "{722F8467-8E03-45DC-BC0B-458C199E5AE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridAndCloud.Web", "GridAndCloud.Web\GridAndCloud.Web.csproj", "{4D2E0293-D4E5-4904-BD0C-F6E024343117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridAndCloud.Web", "GridAndCloud.Web\GridAndCloud.Web.csproj", "{4D2E0293-D4E5-4904-BD0C-F6E024343117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridAndCloud.BusinessLogic.Implementation", "GridAndCloud.BusinessLogic.Implementation\GridAndCloud.BusinessLogic.Implementation.csproj", "{99EB4F44-CA40-4E46-8458-2B033CB44486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GridAndCloud.BusinessLogic.Implementation", "GridAndCloud.BusinessLogic.Implementation\GridAndCloud.BusinessLogic.Implementation.csproj", "{99EB4F44-CA40-4E46-8458-2B033CB44486}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridAndCloud.DataImport", "GridAndCloud.DataImport\GridAndCloud.DataImport.csproj", "{17435422-B00A-456A-896A-1C0C679CAE04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{99EB4F44-CA40-4E46-8458-2B033CB44486}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99EB4F44-CA40-4E46-8458-2B033CB44486}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99EB4F44-CA40-4E46-8458-2B033CB44486}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17435422-B00A-456A-896A-1C0C679CAE04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17435422-B00A-456A-896A-1C0C679CAE04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17435422-B00A-456A-896A-1C0C679CAE04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17435422-B00A-456A-896A-1C0C679CAE04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
