@@ -1,8 +1,130 @@
-﻿@{
+﻿@model List<FilterModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+@{ int i = 0; }
+
+    <form asp-action="ClustersByFilters" method="post">
+        @foreach (var filter in Model)
+        {
+            <input hidden name="[@i].AttributeId" value="@filter.AttributeId">
+            @switch (filter.FilterType)
+            {
+                case FilterType.CompareWithFilter:
+                    {
+                        <select name="[@i].Bound">
+                            @for (int k = filter.Attribute.LowerBound; k < filter.Attribute.UpperBound; ++k)
+                            {
+                                if (filter.Attribute.Options.Contains(k))
+                                {
+                                    <option value="k"> @filter.Attribute.ValueDescriptor(k) </option>
+                                }
+                            }
+                        </select>
+
+                        <label> Включительно: </label>
+                        <input type="checkbox" name="[@i].Inclusive" value="true" />
+                        <label> Больше: </label>
+                        <input type="checkbox" name="[@i].GreaterThan" value="true" />
+
+                        ++i;
+                        break;
+                    }
+                case FilterType.InBetweenFilter:
+                    {
+                        <label> От: </label>
+                        <select name="[@i].LowerBound">
+                            @for (int k = filter.Attribute.LowerBound; k < filter.Attribute.UpperBound; ++k)
+                            {
+                                if (filter.Attribute.Options.Contains(k))
+                                {
+                                    <option value="k"> @filter.Attribute.ValueDescriptor(k) </option>
+                                }
+                            }
+                        </select>
+
+                        <label> До: </label>
+                        <select name="[@i].UpperBound">
+                            @for (int k = filter.Attribute.LowerBound; k < filter.Attribute.UpperBound; ++k)
+                            {
+                                if (filter.Attribute.Options.Contains(k))
+                                {
+                                    <option value="k"> @filter.Attribute.ValueDescriptor(k) </option>
+                                }
+                            }
+                        </select>
+
+                        <label> Включая нижнюю границу: </label>
+                        <input type="checkbox" name="[@i].IncludeLowerBound" value="true" />
+
+                        <label> Включая верхнюю границу: </label>
+                        <input type="checkbox" name="[@i].IncludeUpperBound" value="true" />
+
+                        ++i;
+                        break;
+                    }
+                case FilterType.OneOfFilter:
+                    {
+                        <label> Один из: </label>
+                        <select multiple name="[@i].Options">
+                            @foreach (var option in (filter).Options ?? Array.Empty<int>())
+                            {
+                                <option value="option"> @filter.Attribute.ValueDescriptor(option) </option>
+                            }
+                        </select>
+                        ++i;
+                        break;
+                    }
+            }
+        }
+        <input type="submit" value="send" />
+    </form>
+
+@*<span id="send"> span </span>*@
+
+<script type="text/javascript">
+    @*$(document).ready(function () {
+        $('#send').click(function () {
+
+            let model = {
+                Filters: Array()
+            }
+
+            @for (int j = 0; j < Model.Count; ++j) {
+                <text>
+
+            model.Filters.push({
+                AttributeId: 0,
+                Options: null,
+                LowerBound: null,
+                UpperBound: null,
+                IncludeLowerBound: false,
+                IncludeUpperBound: false,
+                Bound: null,
+                Inclusive: false,
+                GreaterThan: false
+            });
+
+            $('.' + @Model[j].AttributeId).each((index, x) => {
+                model.Filters[@j][x.name] = $(x).val();
+            });
+                </text>
+            }
+
+            console.log(model);
+
+            $.ajax({
+                type: "get",
+                url: "Home/ClustersByFilters",
+                data: model,
+                contentType: 'application/json',
+                success: function (msg) {
+                    alert("Прибыли данные: " + msg);
+                }
+            });
+        });
+    });*@
+</script>

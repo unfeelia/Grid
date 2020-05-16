@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using GridAndCloud.Web.Models;
 using GridAndCloud.BusinessLogic;
 using GridAndCloud.CoreModels;
-using GridAndCloud.CoreModels.Filters;
 
 namespace GridAndCloud.Web.Controllers
 {
@@ -32,12 +28,14 @@ namespace GridAndCloud.Web.Controllers
 
         public IActionResult Index()
         {
-            return View(GetModel());
+            return View(_logic.GetFilters().Select(x => x.GetModel()).ToList());
         }
 
-        public IActionResult ClustersByFilters(FilterModel[] filters)
+        [HttpPost]
+        public IActionResult ClustersByFilters(FilterModel[] Filters)
         {
-            var realFilter = filters.Select(x => x.GetFilter());
+            var realFilter = Filters.Select(x => x.GetFilter(GetModel().Attributes.Values.ToArray()));
+
             var items = _repository.Get(realFilter);
 
             var clusters = _classterisater.ClasteriseElements(items, 4);
@@ -58,5 +56,10 @@ namespace GridAndCloud.Web.Controllers
         {
             return _logic.GetElementModel();
         }
+        private IEnumerable<FilterModel> GetFilters()
+        {
+            return _logic.GetFilters().Select(x => x.GetModel());
+        }
+
     }
 }

@@ -1,0 +1,65 @@
+﻿@model GridAndCloud.Web.Models.FilterModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<h4>FilterModel</h4>
+<hr />
+<div class="row">
+    <input type="hidden" name="AttributeId" value="@Model.AttributeId">
+    @switch (Model.FilterType)
+    {
+        case FilterType.CompareWithFilter:
+            {
+                <input type="checkbox" name="Inclusive">
+                <input type="checkbox" name="GreaterThan">
+
+                break;
+            }
+        case FilterType.InBetweenFilter:
+            {
+                <input type="number" placeholder="insert number" name="LowerBound">
+                <input type="number" placeholder="insert number" name="UpperBound">
+                <input type="checkbox" name="IncludeLowerBound">
+                <input type="checkbox" name="IncludeUpperBound">
+
+                break;
+            }
+        case FilterType.OneOfFilter:
+            {
+                <select placeholder="insert number" multiple name="Options">
+                    @foreach (var option in (Model).Options)
+                    {
+                        <option> @option </option>
+                    }
+                </select>
+                break;
+            }
+    }
+    <div class="col-md-4">
+        <form asp-action="View">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AttributeId" class="control-label"></label>
+                <input asp-for="AttributeId" class="form-control" />
+                <span asp-validation-for="AttributeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FilterType" class="control-label"></label>
+                <input asp-for="FilterType" class="form-control" />
+                <span asp-validation-for="FilterType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
