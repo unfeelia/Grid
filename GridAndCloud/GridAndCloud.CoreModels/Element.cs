@@ -15,9 +15,9 @@ namespace GridAndCloud.CoreModels
 
         public int Id { get; set; }
 
-        private IDictionary<int, ValueType> _attributesValues;
+        private IDictionary<int, int> _attributesValues;
 
-        public IEnumerable<(int, Attribute, ValueType)> Attributes => _model.Attributes.Join(_attributesValues, 
+        public IEnumerable<(int, Attribute, int)> Attributes => _model.Attributes.Join(_attributesValues, 
             x => x.Key, 
             y => y.Key,
             (x,  y) => (x.Key, x.Value, y.Value));
@@ -26,21 +26,21 @@ namespace GridAndCloud.CoreModels
         {
             _model = model;
 
-            _attributesValues = new Dictionary<int, ValueType>();
+            _attributesValues = new Dictionary<int, int>();
             
             var keys = _model.Attributes.Select(x => x.Key);
             
             foreach(var key in keys)
             {
-                _attributesValues.Add(key, null);
+                _attributesValues.Add(key, 0);
             }
         }
 
-        public Element(Model model, IDictionary<int, ValueType> attributes)
+        public Element(Model model, IDictionary<int, int> attributes)
         {
             _model = model;
 
-            _attributesValues = new Dictionary<int, ValueType>();
+            _attributesValues = new Dictionary<int, int>();
 
             var keys = _model.Attributes.Select(x => x.Key);
 
@@ -50,7 +50,7 @@ namespace GridAndCloud.CoreModels
             }
         }
 
-        public void SetAttribute(int attributeId, ValueType value)
+        public void SetAttribute(int attributeId, int value)
         {
             _attributesValues[attributeId] = value;
         }

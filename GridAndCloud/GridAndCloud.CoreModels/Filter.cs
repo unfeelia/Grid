@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Attribute = GridAndCloud.CoreModels.Attributes.Attribute;
 
 namespace GridAndCloud.CoreModels.Filters
 {
     public class Filter
     {
-        private int _attributeId;
+        public int AttributeId => Attribute.Id;
 
-        public int Id => _attributeId;
+        public Attribute Attribute { get; }
 
-        public Filter(int attributeId)
+        public Filter(Attribute attribute)
         {
-            _attributeId = attributeId;
+            Attribute = attribute;
         }
 
         public virtual bool IsValid(Element element)
         {
-            var val = element.Attributes.FirstOrDefault(x => x.Item1 == Id);
-
-            if(val.Item3 == null)
-            {
-                return false;
-            }
+            var val = element.Attributes.FirstOrDefault(x => x.Item1 == AttributeId);
 
             return val.Item2.IsValid(val.Item3);
         }
@@ -30,11 +26,15 @@ namespace GridAndCloud.CoreModels.Filters
 
     public sealed class CompareWithFilter : Filter
     {
-        private ValueType _bound;
+        private int _bound;
         private bool _inclusive;
         private bool _greaterThan;
 
-        public CompareWithFilter(int attributeId, ValueType bound, bool greaterThan = true, bool inclusive = false) : base(attributeId)
+        public int Bound { get => _bound; }
+        public bool Inclusive { get => _inclusive; }
+        public bool GreaterThan { get => _greaterThan; }
+
+        public CompareWithFilter(Attribute attributeId, int bound, bool greaterThan = true, bool inclusive = false) : base(attributeId)
         {
             _bound = bound;
             _inclusive = inclusive;
@@ -45,7 +45,7 @@ namespace GridAndCloud.CoreModels.Filters
         {
             if(base.IsValid(element))
             {
-                var val = element.Attributes.FirstOrDefault(x => x.Item1 == Id);
+                var val = element.Attributes.FirstOrDefault(x => x.Item1 == AttributeId);
 
                 var elementMagnitude = val.Item2.Magnitude(val.Item3).Value - val.Item2.Magnitude(_bound).Value;
 
@@ -66,17 +66,22 @@ namespace GridAndCloud.CoreModels.Filters
         private bool _includeLowerBound;
         private bool _includeUpperBound;
 
-        public InBetweenFilter(int attributeId, 
-            ValueType from, 
-            ValueType to, 
+        public int From { get => _from.Bound; }
+        public int To { get => _to.Bound; }
+        public bool IncludeLowerBound { get => _includeLowerBound; }
+        public bool IncludeUpperBound { get => _includeUpperBound; }
+
+        public InBetweenFilter(Attribute attributeId,
+            int from,
+            int to, 
             bool includeLowerBound = true, 
             bool includeUpperBound = true) : base(attributeId)
         {
             _includeLowerBound = includeLowerBound;
             _includeUpperBound = includeUpperBound;
 
-            _from = new CompareWithFilter(attributeId, true, _includeLowerBound);
-            _to = new CompareWithFilter(attributeId, false, _includeUpperBound);
+            _from = new CompareWithFilter(attributeId, from, _includeLowerBound);
+            _to = new CompareWithFilter(attributeId, to, _includeUpperBound);
         }
 
         public sealed override bool IsValid(Element element)
@@ -94,9 +99,11 @@ namespace GridAndCloud.CoreModels.Filters
 
     public sealed class OneOfFilter : Filter
     {
-        private IEnumerable<ValueType> _options;
+        private IEnumerable<int> _options;
 
-        public OneOfFilter(int attributeId, IEnumerable<ValueType> options) : base(attributeId)
+        public IEnumerable<int> Options { get => _options; }
+
+        public OneOfFilter(Attribute attributeId, IEnumerable<int> options) : base(attributeId)
         {
             _options = options;
         }
@@ -105,7 +112,7 @@ namespace GridAndCloud.CoreModels.Filters
         {
             if (base.IsValid(element))
             {
-                var val = element.Attributes.FirstOrDefault(x => x.Item1 == Id);
+                var val = element.Attributes.FirstOrDefault(x => x.Item1 == AttributeId);
 
                 return _options.Contains(val.Item3);
             }
